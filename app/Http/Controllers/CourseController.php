@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
 
 class CourseController extends Controller
 {
-    public function index()
+    public function index() 
     {
         // $data['courses'] = Course::orderBy('id', 'asc')->paginate(4);
         return view('course.index');
