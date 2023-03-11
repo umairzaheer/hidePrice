@@ -1,0 +1,25 @@
+.hideprice {
+    background-color: #0c0cb5;
+    color: white;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    display: inline-block;
+    font-size: 1.2rem;
+    letter-spacing: .1rem;
+    line-height: 1;
+    padding: 1.6rem 1.3rem;
+    text-align: center;
+    /* background-color: rgb(var(--color-badge-background)); */
+    border-color: rgba(var(--color-badge-border),var(--alpha-badge-border));
+    /* color: rgb(var(--color-foreground)); */
+    word-break: break-word;
+    cursor: pointer;
+}
+
+/* .card-information > .price{
+    display:none;
+} */
+.price__container{
+    display:none;
+}
+
