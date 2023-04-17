@@ -1,0 +1,479 @@
+  /* popup design css */
+  .maincontainer {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background-color: #000000cf;
+      color: black;
+      /* through z index we avoid overlap */
+      z-index: 4;
+      display: none;
+  }
+
+  .popupcontainer {
+      position: relative;
+      width: 100%;
+      min-height: 100%;
+
+  }
+
+  .popupblock {
+      position: absolute;
+      background-color: white;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 1000px;
+      width: 85%;
+      min-height: auto;
+      padding: 40px 40px;
+      /* through box sizing we void padding spaces */
+      box-sizing: border-box;
+
+  }
+
+  .eosh-crossButton {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: white;
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+  }
+
+  .crossimage {
+      color: white;
+      max-width: 100%;
+      width: 15px;
+  }
+
+  .product {
+      text-align: left;
+      width: 60%;
+  }
+
+  .quantity {
+      /* width: 15%; */
+  }
+
+  .total {
+      width: 15%;
+  }
+
+  .table {
+      width: 100%;
+      border-collapse: collapse;
+
+  }
+
+  .table td {
+      vertical-align: top;
+      padding: 15px 15px;
+  }
+
+  .imagecontainer {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      /* background-color: purple; */
+      justify-content: space-between;
+
+
+  }
+
+  .img {
+      width: 48%;
+      /* background-color: aqua; */
+  }
+
+  .dropdowncontent {
+      width: 48%;
+      /* background-color: aquamarine; */
+      display: flex;
+      flex-direction: column;
+  }
+
+  .mainimage {
+      max-width: 100%;
+  }
+
+  /* changed */
+  .productImage {
+      max-width: 100%;
+  }
+
+  .table tr th {
+      border-bottom: 1px solid #00000033;
+      padding: 0px 0px 17px 0px;
+
+  }
+
+  .eosh-ProductTitle {
+      font-size: 23px;
+      font-family: sans-serif;
+      /* padding: 0px 0px 0px 0px; */
+      margin: 0px 0px 0px 0px;
+      font-weight: 600;
+  }
+
+  .body {
+      padding-top: 17px;
+  }
+
+  .eosh-ProductTitle:after {
+      content: "";
+      width: 100%;
+      height: 2px;
+      display: block;
+      background-color: #7c7c7c;
+      margin-top: 16px;
+  }
+
+  /* .dropdown{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+} */
+  .form {
+      display: flex;
+      flex-direction: column;
+      /* margin-top: 20px; */
+  }
+
+  #labelDropDown2 {
+      font-size: 20px;
+      font-weight: 600;
+      display: block;
+      padding-bottom: 15px;
+  }
+
+  .dropDowns {
+      width: auto;
+      /* height: 50%; */
+      font-size: 15px;
+      padding: 10px 10px 10px 10px;
+      font-weight: 600;
+      background-color: #d3d3d375;
+      appearance: none;
+      background-repeat: no-repeat;
+      background-size: 10px;
+      background-position-x: 93%;
+      background-position-y: center;
+  }
+
+  .pink {
+      background-color: skyblue;
+
+
+  }
+
+  .white {
+      background-color: white;
+
+  }
+
+  #labelDropDown1 {
+      font-size: 20px;
+      font-weight: 600;
+      display: block;
+      padding: 20px 0px 15px 0px;
+  }
+
+  #labelDropDown3 {
+    font-size: 20px;
+    font-weight: 600;
+    display: block;
+    padding-bottom: 15px;
+}
+
+  .button {
+      display: flex;
+      flex-direction: row;
+  }
+
+  .update {
+      width: 89%;
+      border: 1px solid;
+      cursor: pointer;
+      /* height: 47%; */
+      /* margin-right: 20px; */
+      font-size: 17px;
+      padding: 10px 10px 10px 10px;
+  }
+
+  #changeBtn {
+      width: 30%;
+      /* border: 1px solid; */
+      cursor: pointer;
+      /* height: 47%; */
+      /* margin-right: 20px; */
+      font-size: 17px;
+      padding: 10px 10px 10px 10px;
+  }
+
+  .cancel {
+      width: 89%;
+      border: 1px solid;
+      cursor: pointer;
+      /* height: 47%; */
+      /* margin-right: 20px; */
+      margin-left: 10px;
+      font-size: 17px;
+      padding: 10px 10px 10px 10px;
+  }
+
+  .one .popup-price {
+      display: flex;
+      flex-direction: row;
+      border: 1px solid;
+      /* padding-top: 18px; */
+
+      justify-content: space-between;
+      width: 100px;
+      margin: auto;
+      padding: 10px 10px 10px 10px;
+
+  }
+
+  .one .popup-price button {
+      background-color: transparent;
+      cursor: pointer;
+      border: 0px;
+      outline: none;
+  }
+
+  .one .popup-price input {
+      width: 30px;
+      text-align: center;
+      border: 0px;
+      background-color: transparent;
+      outline: none;
+  }
+
+  .table_container {
+      /* height:450px; overflow:scroll; overflow-y:scroll;  */
+  }
+
+  .ones {
+      display: flex;
+      flex-direction: row;
+      font-size: 20px;
+
+
+  }
+
+  #eosh-price {
+      margin: 0px auto 0px 0px;
+      font-size: 16px;
+      line-height: 24px;
+  }
+     /* survey portion css start*/
+    .inner_container {
+        width: 100%;
+    }
+
+    .survey {
+        margin-right: 30px;
+        width: auto;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+  .survey-heading {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    align-items: center;
+    vertical-align: top;
+    display: flex;
+    color: #1F2021;
+    margin-bottom: 15px;
+    width: 100%
+  }
+
+  .note-heading {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    align-items: center;
+    vertical-align: top;
+    display: flex;
+    color: #1F2021;
+    margin-bottom: 15px;
+  }
+
+  .option {
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 22px;
+    vertical-align: Top;
+    color: #1F2021;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    margin-right: 10px
+  }
+
+    .inputt {
+        width: 15px !important;
+        height: 15px;
+    }
+
+  #Cart-note {
+    border-radius: 4px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  .message {
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-size: 15px;
+    line-height: 18px;
+    align-items: center;
+    vertical-align: top;
+    display: flex;
+    margin-top: 10px;
+  }
+  /* survey portion css end*/
+
+  @media screen and (min-width:200px) and (max-width:767px) {
+      .eosh-ProductTitle {
+          font-size: 16px;
+          padding-top: 15px;
+      }
+
+      #labelDropDown2 {
+          font-size: 16px;
+          padding-top: 15px;
+      }
+
+      .table td {
+          padding: 10px;
+      }
+
+      .popupblock {
+          padding: 10px;
+          width: 85%;
+      }
+
+      thead {
+          display: none;
+      }
+
+      td {
+          display: block;
+      }
+
+      .imagecontainer {
+          flex-wrap: wrap;
+      }
+
+      .img {
+          width: 100%;
+      }
+
+      .dropdowncontent {
+          width: 100%;
+      }
+
+      p {
+          margin: 10px 0px;
+          font-weight: 800;
+      }
+
+      .eosh-crossButton {
+          width: 30px;
+          height: 30px;
+          top: -17px;
+          right: -17px;
+      }
+
+      #labelDropDown1 {
+          font-size: 16px;
+          line-height: 22px;
+          padding: 10px 0px;
+      }
+
+      #labelDropDown3 {
+        font-size: 16px;
+        line-height: 22px;
+        padding: 10px 0px;
+    }
+
+      .dropDowns {
+          font-size: 14px;
+          line-height: 20px;
+          padding: 8px 10px;
+      }
+
+      .one .popup-price {
+          width: 100px;
+          margin: auto;
+      }
+
+      .ones {
+          justify-content: center;
+      }
+
+      .mbl_row {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          flex-wrap: wrap;
+          margin-top: 15px;
+      }
+
+      .mbl_row>div {
+          padding-right: 15px;
+      }
+
+      .mbl_row .button {
+          width: 100%;
+      }
+  }
+
+  @media screen and (min-width:768px) and (max-width:1024px) {
+      .popupblock {
+          padding: 20px 20px;
+          width: 85%;
+      }
+
+      .table td {
+          padding: 15px;
+      }
+
+      .eosh-ProductTitle {
+          font-size: 18px;
+          line-height: 24px;
+      }
+
+      #labelDropDown1 {
+          padding: 15px 0px;
+      }
+
+      #labelDropDown3 {
+        padding: 15px 0px;
+    }
+
+      .dropDowns {
+          padding: 8px 10px;
+      }
+
+      #labelDropDown2 {
+          padding-bottom: 10px;
+          font-size: 14px;
+      }
+
+      .eosh-ProductTitle:after {
+          margin-top: 10px;
+      }
+  }

@@ -549,8 +549,8 @@ class ApiHelper implements IApiHelper
             },
             // Headers: Referer
             DataSource::REFERER()->toNative() => function (): ?string {
-                $url = parse_url(Request::server('HTTP_REFERER'), PHP_URL_QUERY);
-                parse_str($url, $refererQueryParams);
+                $url = parse_url(Request::server('HTTP_REFERER', ''), PHP_URL_QUERY);
+                parse_str($url ?? '', $refererQueryParams);
 
                 return Arr::get($refererQueryParams, 'shop');
             },
@@ -564,39 +564,4 @@ class ApiHelper implements IApiHelper
 
         return NullableShopDomain::fromNative(null);
     }
-
-
-    public function getThemes(array $params = []): ResponseAccess
-    {
-        // Setup the params
-        $reqParams = array_merge(
-            [
-                'limit' => 250,
-                'fields' => 'id,role',
-            ],
-            $params
-        );
-
-        // Fire the request
-        $response = $this->doRequest(
-            ApiMethod::GET(),
-            '/admin/themes.json',
-            $reqParams
-        );
-
-        return $response['body']['themes'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-
-
-    
-
-    /**
-     * {@inheritdoc}
-     */
-
-
-    }
+}

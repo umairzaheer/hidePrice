@@ -1,4 +1,5 @@
-@if ($paginator->hasPages())
+
+ @if ($paginator->hasPages())
 <div class="pagination justify-content-center">
     <span class="button-group " style=" float: none;">
         {{-- Previous Page Link --}}
@@ -15,4 +16,4 @@
         @endif
     </span>
 </div>
-@endif
+@endif 

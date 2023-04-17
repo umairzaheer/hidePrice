@@ -101,7 +101,16 @@ class VerifyShopify
             return $next($request);
         }
 
+        if (!Util::useNativeAppBridge()) {
+            $storeResult = !$this->isApiRequest($request) && $this->checkPreviousInstallation($request);
+
+            if ($storeResult) {
+                return $next($request);
+            }
+        }
+
         $tokenSource = $this->getAccessTokenFromRequest($request);
+
         if ($tokenSource === null) {
             //Check if there is a store record in the database
             return $this->checkPreviousInstallation($request)
@@ -248,6 +257,11 @@ class VerifyShopify
             return false;
         }
 
+        // Override auth guard
+        if (($guard = Util::getShopifyConfig('shop_auth_guard'))) {
+            $this->auth->setDefaultDriver($guard);
+        }
+
         // All is well, login the shop
         $this->auth->login($shop);
 
@@ -328,8 +342,8 @@ class VerifyShopify
             DataSource::HEADER()->toNative() => $request->header('X-Shop-Signature'),
             // Headers: Referer
             DataSource::REFERER()->toNative() => function () use ($request): ?string {
-                $url = parse_url($request->header('referer'), PHP_URL_QUERY);
-                parse_str($url, $refererQueryParams);
+                $url = parse_url($request->header('referer', ''), PHP_URL_QUERY);
+                parse_str($url ?? '', $refererQueryParams);
                 if (! $refererQueryParams || ! isset($refererQueryParams['hmac'])) {
                     return null;
                 }
@@ -495,6 +509,6 @@ class VerifyShopify
     {
         $shop = $this->shopQuery->getByDomain(ShopDomain::fromRequest($request), [], true);
 
-        return $shop && ! $shop->trashed();
+        return $shop && $shop->password && ! $shop->trashed();
     }
 }

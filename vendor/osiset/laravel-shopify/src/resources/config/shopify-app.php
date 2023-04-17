@@ -67,6 +67,27 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Shop auth guard
+    |--------------------------------------------------------------------------
+    |
+    | This option allows you to override auth guard used by package middlewares
+    |
+    */
+    'shop_auth_guard' => env('SHOPIFY_SHOP_AUTH_GUARD', null),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Shop auth provider
+    |--------------------------------------------------------------------------
+    |
+    | This option allows you to override package's build-in auth model
+    | If you need to keep User model intact, add custom auth provider and route middlewares for it
+    |
+    */
+    'shop_auth_provider' => env('SHOPIFY_SHOP_AUTH_PROVIDER', 'users'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Namespace
     |--------------------------------------------------------------------------
     |
@@ -143,7 +164,7 @@ return [
     |
     */
 
-    'api_version' => env('SHOPIFY_API_VERSION', '2021-01'),
+    'api_version' => env('SHOPIFY_API_VERSION', '2022-01'),
 
     /*
     |--------------------------------------------------------------------------
@@ -416,4 +437,57 @@ return [
     */
 
     'turbo_enabled' => (bool) env('SHOPIFY_TURBO_ENABLED', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Customize Models and Table Name
+    |--------------------------------------------------------------------------
+    |
+    | You can customize you model and extend them
+    | also you can customize tables name for charge and plan models.
+    |
+    */
+
+    'models' => [
+        /*
+        * The fully qualified class name of the Charge model.
+        */
+        'charge' => Osiset\ShopifyApp\Storage\Models\Charge::class,
+
+        /*
+        * The fully qualified class name of the Plan model.
+        */
+        'plan' => Osiset\ShopifyApp\Storage\Models\Plan::class,
+    ],
+
+    'table_names' => [
+        /*
+        * The table name for Charge model.
+        */
+        'charges' => 'charges',
+
+        /*
+        * The table name for Plan model.
+        */
+        'plans' => 'plans',
+
+        /*
+         * The table name for the Shop.
+         */
+        'shops' => 'users',
+    ],
+
+    'session_token_refresh_interval' => env('SESSION_TOKEN_REFRESH_INTERVAL', 2000),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Frontend engine used
+    |--------------------------------------------------------------------------
+    |
+    | Available engines: "BLADE", "VUE", or "REACT".
+    | For example, if you use React, you do not need to be redirected to a separate page to get the JWT token.
+    | No changes are made for Vue.js and Blade.
+    |
+    */
+    'frontend_engine' => env('SHOPIFY_FRONTEND_ENGINE', 'BLADE'),
 ];

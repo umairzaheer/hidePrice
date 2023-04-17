@@ -7,14 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
 use Osiset\ShopifyApp\Contracts\ShopModel as IShopModel;
 use Osiset\ShopifyApp\Traits\ShopModel;
 
 class User extends Authenticatable implements IShopModel
 {
-    use HasApiTokens, HasFactory, Notifiable;
-    use ShopModel;
+    use HasApiTokens, HasFactory, Notifiable, ShopModel;
 
     /**
      * The attributes that are mass assignable.
@@ -26,6 +24,16 @@ class User extends Authenticatable implements IShopModel
         'email',
         'password',
     ];
+
+    public function setting()
+    {
+        return $this->hasOne(Setting::class);
+    }
+
+    public function rule()
+    {
+        return $this->hasOne(Rule::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -45,10 +53,4 @@ class User extends Authenticatable implements IShopModel
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-
-    public function ruules()
-    {
-        return $this->hasMany(Ruule::class);
-    }
 }

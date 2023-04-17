@@ -181,7 +181,4 @@ interface ApiHelper
      * @return ResponseAccess|bool Array if success, bool for error.
      */
     public function createUsageCharge(UsageChargeDetails $payload);
-
-
-    
 }

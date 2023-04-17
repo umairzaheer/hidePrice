@@ -6,10 +6,10 @@ use Illuminate\Contracts\View\View as ViewView;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Osiset\ShopifyApp\Actions\AuthenticateShop;
 use Osiset\ShopifyApp\Exceptions\MissingAuthUrlException;
+use Osiset\ShopifyApp\Exceptions\MissingShopDomainException;
 use Osiset\ShopifyApp\Exceptions\SignatureVerificationException;
 use Osiset\ShopifyApp\Objects\Values\ShopDomain;
 use Osiset\ShopifyApp\Util;
@@ -22,10 +22,17 @@ trait AuthController
     /**
      * Installing/authenticating a shop.
      *
+     * @throws MissingShopDomainException if both shop parameter and authenticated user are missing
+     *
      * @return ViewView|RedirectResponse
      */
     public function authenticate(Request $request, AuthenticateShop $authShop)
     {
+        if ($request->missing('shop') && !$request->user()) {
+            // One or the other is required to authenticate a shop
+            throw new MissingShopDomainException('No authenticated user or shop domain');
+        }
+
         // Get the shop domain
         $shopDomain = $request->has('shop')
             ? ShopDomain::fromNative($request->get('shop'))
@@ -43,15 +50,22 @@ trait AuthController
             // Show exception, something is wrong
             throw new SignatureVerificationException('Invalid HMAC verification');
         } elseif ($status === false) {
-            if (! $result['url']) {
+            if (!$result['url']) {
                 throw new MissingAuthUrlException('Missing auth url');
             }
+
+            $shopDomain = $shopDomain->toNative();
+            $shopOrigin = $shopDomain ?? $request->user()->name;
 
             return View::make(
                 'shopify-app::auth.fullpage_redirect',
                 [
+                    'apiKey' => Util::getShopifyConfig('api_key', $shopOrigin),
+                    'appBridgeVersion' => Util::getShopifyConfig('appbridge_version') ? '@'.config('shopify-app.appbridge_version') : '',
                     'authUrl' => $result['url'],
-                    'shopDomain' => $shopDomain->toNative(),
+                    'host' => $request->host ?? base64_encode($shopOrigin.'/admin'),
+                    'shopDomain' => $shopDomain,
+                    'shopOrigin' => $shopOrigin,
                 ]
             );
         } else {
@@ -82,8 +96,12 @@ trait AuthController
         if ($query) {
             // remove "token" from the target's query string
             $params = Util::parseQueryString($query);
+            $params['shop'] = $params['shop'] ?? $shopDomain->toNative() ?? '';
             unset($params['token']);
 
+            $cleanTarget = trim(explode('?', $target)[0].'?'.http_build_query($params), '?');
+        } else {
+            $params = ['shop' => $shopDomain->toNative() ?? ''];
             $cleanTarget = trim(explode('?', $target)[0].'?'.http_build_query($params), '?');
         }
 

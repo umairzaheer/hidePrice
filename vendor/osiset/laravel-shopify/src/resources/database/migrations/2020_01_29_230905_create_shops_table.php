@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Osiset\ShopifyApp\Util;
 
 class CreateShopsTable extends Migration
 {
@@ -13,17 +14,29 @@ class CreateShopsTable extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table(Util::getShopsTable(), function (Blueprint $table) {
             $table->boolean('shopify_grandfathered')->default(false);
             $table->string('shopify_namespace')->nullable(true)->default(null);
             $table->boolean('shopify_freemium')->default(false);
             $table->integer('plan_id')->unsigned()->nullable();
 
-            if (! Schema::hasColumn('users', 'deleted_at')) {
+            if (! Schema::hasColumn(Util::getShopsTable(), 'deleted_at')) {
                 $table->softDeletes();
             }
 
-            $table->foreign('plan_id')->references('id')->on('plans');
+            if (! Schema::hasColumn(Util::getShopsTable(), 'name')) {
+                $table->string('name')->nullable();
+            }
+
+            if (! Schema::hasColumn(Util::getShopsTable(), 'email')) {
+                $table->string('email')->nullable();
+            }
+
+            if (! Schema::hasColumn(Util::getShopsTable(), 'password')) {
+                $table->string('password', 100)->nullable();
+            }
+
+            $table->foreign('plan_id')->references('id')->on(Util::getShopifyConfig('table_names.plans', 'plans'));
         });
     }
 
@@ -34,9 +47,12 @@ class CreateShopsTable extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign('users_plan_id_foreign');
+        Schema::table(Util::getShopsTable(), function (Blueprint $table) {
+            $table->dropForeign(Util::getShopsTable().'_plan_id_foreign');
             $table->dropColumn([
+                'name',
+                'email',
+                'password',
                 'shopify_grandfathered',
                 'shopify_namespace',
                 'shopify_freemium',

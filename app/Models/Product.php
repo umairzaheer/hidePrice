@@ -8,15 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'ruules_id',
-        'product_id',
-        'product_title',
-    ];
 
+    protected $fillable = [
+        'rule_id',
+        'product_id',
+        'collection_id'
+    ];
 
     public function rule()
     {
-        return $this->belongsTo(Ruule::class);
+        return $this->belongsTo(Rule::class);
     }
 }

@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Schema;
+use Osiset\ShopifyApp\Util;
 
 class CreateChargesTable extends Migration
 {
@@ -15,7 +16,7 @@ class CreateChargesTable extends Migration
     public function up()
     {
         // Thanks to @ncpope of Github.com
-        Schema::create('charges', function (Blueprint $table) {
+        Schema::create(Util::getShopifyConfig('table_names.charges', 'charges'), function (Blueprint $table) {
             $table->increments('id');
 
             // Filled in when the charge is created, provided by shopify, unique makes it indexed
@@ -78,14 +79,14 @@ class CreateChargesTable extends Migration
             $table->softDeletes();
 
             if ($this->getLaravelVersion() < 5.8) {
-                $table->integer('user_id')->unsigned();
+                $table->integer(Util::getShopsTableForeignKey())->unsigned();
             } else {
-                $table->bigInteger('user_id')->unsigned();
+                $table->bigInteger(Util::getShopsTableForeignKey())->unsigned();
             }
 
             // Linking
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('plan_id')->references('id')->on('plans');
+            $table->foreign(Util::getShopsTableForeignKey())->references('id')->on(Util::getShopsTable())->onDelete('cascade');
+            $table->foreign('plan_id')->references('id')->on(Util::getShopifyConfig('table_names.plans', 'plans'));
         });
     }
 
@@ -96,7 +97,7 @@ class CreateChargesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('charges');
+        Schema::drop(Util::getShopifyConfig('table_names.charges', 'charges'));
     }
 
     /**

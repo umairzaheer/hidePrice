@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use LogicException;
+use Osiset\ShopifyApp\Objects\Enums\FrontendEngine;
 use Osiset\ShopifyApp\Objects\Values\Hmac;
 
 /**
@@ -164,10 +165,10 @@ class Util
      */
     public static function getShopifyConfig(string $key, $shop = null)
     {
-        $config = array_merge(
-            Config::get('shopify-app', []),
-            ['user_model' => Config::get('auth.providers.users.model')]
-        );
+        $config = Config::get('shopify-app', []);
+
+        $config['user_model'] = Config::get("auth.providers.{$config['shop_auth_provider']}.model", Config::get('auth.providers.users.model'));
+
 
         if (Str::is('route_names.*', $key)) {
             // scope the Arr::get() call to the "route_names" array
@@ -208,5 +209,41 @@ class Util
         return Str::of($topic)
                   ->upper()
                   ->replaceMatches('/[^A-Z_]/', '_');
+    }
+
+
+    /**
+     * Get the table name for shop
+     *
+     * @return string
+     */
+    public static function getShopsTable(): string
+    {
+        return self::getShopifyConfig('table_names.shops') ?? 'users';
+    }
+
+    /**
+     * Get the table foreign key for shop
+     *
+     * @return string
+     */
+    public static function getShopsTableForeignKey(): string
+    {
+        return Str::singular(self::getShopsTable()).'_id';
+    }
+
+    /**
+     * Checking to see if you need to use the native App Bridge
+     *
+     * @return bool
+     */
+    public static function useNativeAppBridge(): bool
+    {
+        $frontendEngine = FrontendEngine::fromNative(
+            self::getShopifyConfig('frontend_engine') ?? 'BLADE'
+        );
+        $reactEngine = FrontendEngine::fromNative('REACT');
+
+        return !$frontendEngine->isSame($reactEngine);
     }
 }

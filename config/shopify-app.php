@@ -67,6 +67,27 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Shop auth guard
+    |--------------------------------------------------------------------------
+    |
+    | This option allows you to override auth guard used by package middlewares
+    |
+    */
+    'shop_auth_guard' => env('SHOPIFY_SHOP_AUTH_GUARD', null),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Shop auth provider
+    |--------------------------------------------------------------------------
+    |
+    | This option allows you to override package's build-in auth model
+    | If you need to keep User model intact, add custom auth provider and route middlewares for it
+    |
+    */
+    'shop_auth_provider' => env('SHOPIFY_SHOP_AUTH_PROVIDER', 'users'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Namespace
     |--------------------------------------------------------------------------
     |
@@ -118,7 +139,8 @@ return [
 
     // Use semver range to link to a major or minor version number.
     // Leaving empty will use the latest version - not recommended in production.
-    'appbridge_version' => env('SHOPIFY_APPBRIDGE_VERSION', 'latest'),
+    'appbridge_version' => env('SHOPIFY_APPBRIDGE_VERSION', '3.1.0'),
+
 
     /*
     |--------------------------------------------------------------------------
@@ -129,7 +151,7 @@ return [
     |
     */
 
-    'app_name' => env('SHOPIFY_APP_NAME', 'Test App'),
+    'app_name' => env('SHOPIFY_APP_NAME', 'Shopify App'),
 
     /*
     |--------------------------------------------------------------------------
@@ -143,7 +165,7 @@ return [
     |
     */
 
-    'api_version' => env('SHOPIFY_API_VERSION', '2021-01'),
+    'api_version' => env('SHOPIFY_API_VERSION', '2022-07'),
 
     /*
     |--------------------------------------------------------------------------
@@ -154,7 +176,7 @@ return [
     |
     */
 
-    'api_key' => env('SHOPIFY_API_KEY', '79181a0e1524f2ead95edd54dd8be466'),
+    'api_key' => env('SHOPIFY_API_KEY', ''),
 
     /*
     |--------------------------------------------------------------------------
@@ -165,7 +187,7 @@ return [
     |
     */
 
-    'api_secret' => env('SHOPIFY_API_SECRET', 'd52b09d6ccd9e63a82fc7f035fbc7c2a'),
+    'api_secret' => env('SHOPIFY_API_SECRET', ''),
 
     /*
     |--------------------------------------------------------------------------
@@ -176,7 +198,7 @@ return [
     |
     */
 
-    'api_scopes' => env('SHOPIFY_API_SCOPES', 'read_products,write_products,write_script_tags'),
+    'api_scopes' => env('SHOPIFY_API_SCOPES', ''),
 
     /*
     |--------------------------------------------------------------------------
@@ -320,10 +342,11 @@ return [
     */
 
     'webhooks' => [
+
         [
-            'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', 'APP_UNINSTALLED'),
-            'address' => env('SHOPIFY_WEBHOOK_1_ADDRESS', 'https://shopify-app.test/webhook/app-uninstalled')
-        ],
+            'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', ''),
+            'address' => env('SHOPIFY_WEBHOOK_1_ADDRESS', '')
+        ],  
     ],
 
     /*
@@ -335,13 +358,16 @@ return [
     |
     */
 
-   'scripttags' => [
-    [
-        'src' => env('SHOPIFY_SCRIPTTAG_1_SRC', 'https://shopify-app.test/some-controller/js-method-response'),
-        'event' => env('SHOPIFY_SCRIPTTAG_1_EVENT', ''),
-        'display_scope' => env('SHOPIFY_SCRIPTTAG_1_DISPLAY_SCOPE', '')
-    ]
-],
+    'scripttags' => [
+        /*
+            [
+                'src' => env('SHOPIFY_SCRIPTTAG_1_SRC', 'https://some-app.com/some-controller/js-method-response'),
+                'event' => env('SHOPIFY_SCRIPTTAG_1_EVENT', 'onload'),
+                'display_scope' => env('SHOPIFY_SCRIPTTAG_1_DISPLAY_SCOPE', 'online_store')
+            ],
+            ...
+        */
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -408,7 +434,56 @@ return [
 
     'turbo_enabled' => (bool) env('SHOPIFY_TURBO_ENABLED', false),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Customize Models and Table Name
+    |--------------------------------------------------------------------------
+    |
+    | You can customize you model and extend them
+    | also you can customize tables name for charge and plan models.
+    |
+    */
 
+    'models' => [
+        /*
+        * The fully qualified class name of the Charge model.
+        */
+        'charge' => Osiset\ShopifyApp\Storage\Models\Charge::class,
 
+        /*
+        * The fully qualified class name of the Plan model.
+        */
+        'plan' => Osiset\ShopifyApp\Storage\Models\Plan::class,
+    ],
 
+    'table_names' => [
+        /*
+        * The table name for Charge model.
+        */
+        'charges' => 'charges',
+
+        /*
+        * The table name for Plan model.
+        */
+        'plans' => 'plans',
+
+        /*
+         * The table name for the Shop.
+         */
+        'shops' => 'users',
+    ],
+
+    'session_token_refresh_interval' => env('SESSION_TOKEN_REFRESH_INTERVAL', 2000),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Frontend engine used
+    |--------------------------------------------------------------------------
+    |
+    | Available engines: "BLADE", "VUE", or "REACT".
+    | For example, if you use React, you do not need to be redirected to a separate page to get the JWT token.
+    | No changes are made for Vue.js and Blade.
+    |
+    */
+    'frontend_engine' => env('SHOPIFY_FRONTEND_ENGINE', 'BLADE'),
 ];

@@ -1,9 +1,9 @@
 <script data-turbolinks-eval="false">
-    var SESSION_TOKEN_REFRESH_INTERVAL = 2000;
+    var SESSION_TOKEN_REFRESH_INTERVAL = {{ \Osiset\ShopifyApp\Util::getShopifyConfig('session_token_refresh_interval') }};
     var LOAD_EVENT = '{{ \Osiset\ShopifyApp\Util::getShopifyConfig('turbo_enabled') ? 'turbolinks:load' : 'DOMContentLoaded' }}';
 
     // Token updates
-    document.addEventListener(LOAD_EVENT, (event) => {
+    document.addEventListener(LOAD_EVENT, () => {
         retrieveToken(app);
         keepRetrievingToken(app);
     });
@@ -30,6 +30,15 @@
             } else {
                 window.jQuery.ajaxSettings.headers = { 'Authorization': bearer };
             }
+        }
+		
+		if (window.Livewire) {
+            // livewire
+            window.livewire.addHeaders({
+                'Authorization': bearer,
+                'content-type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            });
         }
 
         if (window.axios) {

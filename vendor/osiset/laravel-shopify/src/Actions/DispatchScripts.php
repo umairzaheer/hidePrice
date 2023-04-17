@@ -59,7 +59,6 @@ class DispatchScripts
             return false;
         }
 
-
         // Run the installer job
         if ($inline) {
             ($this->jobClass)::dispatchNow(
@@ -75,10 +74,4 @@ class DispatchScripts
 
         return true;
     }
-
-
-
-
-
-    
 }
